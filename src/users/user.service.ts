@@ -12,12 +12,63 @@ export class UserService {
 
 
     //getAllUsers
-    async getAllUsers() {
+    // async getAllUsers() {
+    //     const totalCount = await this._userModel.countDocuments({});
+    //     const getUsers = await this._userModel.find();
+    //     return {
+    //         data: getUsers,
+    //         totalCount: totalCount
+    //     }
+    // }
+
+    async getAllUsers(limit, offset) {
+        // limit = parseInt(limit) < 1 ? 10 : limit;
+        // offset = parseInt(offset) < 0 ? 0 : offset;
+        // debugger
+        // const totalCount = await this._userModel.countDocuments({});
+        // debugger
+        // const getUsers = await this._userModel
+        // .find({})
+        // // .sort({ creationDate: -1 })
+        // .skip(parseInt(offset))
+        // .limit(parseInt(limit))
+        // // .then((result) => {
+        // //     if(result) {
+        // //         return {
+        // //             data: getUsers,
+        // //             totalCount: totalCount
+        // //         }
+        // //     }
+        // //     else {
+        // //         throw new HttpException('Users not Found', HttpStatus.NOT_FOUND)
+        // //     }
+        // // }).catch(() => {
+        // //     throw new HttpException('Users not Found', HttpStatus.NOT_FOUND)
+        // // })
+
+        // return {
+        //     totalCount: totalCount,
+        //     data: getUsers
+        // }
+
+        try {
+            limit = parseInt(limit) < 1 ? 10 : limit;
+        offset = parseInt(offset) < 0 ? 0 : offset;
+        debugger
         const totalCount = await this._userModel.countDocuments({});
-        const getUsers = await this._userModel.find();
+        debugger
+        const getUsers = await this._userModel
+        .find({})
+        .sort({ creationDate: -1 })
+        .skip(parseInt(offset))
+        .limit(parseInt(limit))
+
         return {
-            data: getUsers,
-            totalCount: totalCount
+            totalCount: totalCount,
+            data: getUsers
+        }
+        } catch (error) {
+            throw new HttpException(error.message, HttpStatus.NOT_FOUND)
         }
     }
 
@@ -27,10 +78,11 @@ export class UserService {
         return await newUser.save();
     }
 
-    async updateUser(id: string, user: CreateUserDto) {
+    async updateUser(user: CreateUserDto, id: string) {
         const findUser = await this._userModel.findOne({_id: id});
         if(findUser) {
-            const updateUser = await this._userModel.findByIdAndUpdate({_id:id} , user)
+            const updateUser = await this._userModel.findByIdAndUpdate(
+                {_id:id} , user)
             .then((result) => {
                 if(result) {
                     return result
@@ -46,9 +98,23 @@ export class UserService {
          }
       }
 
-      async deleteUser(id){
-        const deleteUser = await this._userModel.deleteOne({ _id: id });
-        return deleteUser;
+    // async updateUser(updateUser) {
+    //     return await this._userModel.updateOne({_id: updateUser.id}, updateUser)
+    // }
+
+      async deleteUser(id: string): Promise<User>{
+        if(id) {
+            return await this._userModel.findByIdAndRemove({_id: id}).then((result) => {
+                if (result) {
+                    return result
+                }
+                else {
+                    throw new HttpException('User with this ID does not Exist', HttpStatus.NOT_FOUND)
+                }
+            }).catch(() => {
+                throw new HttpException('USer with this ID does not Exist', HttpStatus.NOT_FOUND)
+            })
+        }
       }
 
 }
