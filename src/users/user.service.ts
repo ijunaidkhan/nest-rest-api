@@ -4,6 +4,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { User } from './interfaces/user.interface';
 import { Model } from 'mongoose';
 import { CreateUserDto } from './dto/create-user.dto';
+import { Types } from 'mongoose';
 
 @Injectable()
 export class UserService {
@@ -73,7 +74,11 @@ export class UserService {
     }
 
     //CreateNewUser
-    async addNewUser(user: CreateUserDto ){
+    async addNewUser(user){
+
+        if(!user._id) {
+            user._id = new Types.ObjectId().toString();
+        }
         const newUser = new this._userModel(user)
         return await newUser.save();
     }
