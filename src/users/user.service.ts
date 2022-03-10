@@ -80,6 +80,20 @@ export class UserService {
             user._id = new Types.ObjectId().toString();
         }
         const newUser = new this._userModel(user)
+        if(newUser.images && newUser.images.length) {
+            for await ( const mediaObj of newUser.images) {
+                await new Promise(async(resolve, reject)=>{
+                    try{
+                        let mediaUrl = '';
+                        mediaUrl = mediaObj.captureFileURL;
+                        resolve({})
+                    }
+                    catch(error) {
+                        reject(error)
+                    }
+                })
+            }
+        }
         return await newUser.save();
     }
 

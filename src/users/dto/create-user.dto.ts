@@ -30,6 +30,16 @@ export class CreateUserDto {
 
     @ApiProperty()
     phoneno: number;
+
+    @ApiProperty({
+      example: [
+        {
+          captureFileURL: ''
+        }
+      ]
+    })
+    images: any[];
+    
   }
 
 

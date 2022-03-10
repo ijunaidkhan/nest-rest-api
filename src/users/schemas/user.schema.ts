@@ -10,7 +10,8 @@ export const UserSchema = new mongoose.Schema({
     experience: { type: String, default: '' },
     techStack: { type: String, default: '' },
     education: { type: String, default: '' },
-    phoneno: { type: Number, default: 0 }
+    phoneno: { type: Number, default: 0 },
+    images: { type: Array, default: []}
   },
   {
     collection: 'users'

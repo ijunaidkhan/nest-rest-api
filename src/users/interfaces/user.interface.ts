@@ -10,6 +10,7 @@ export interface User extends Document {
     techStack: string;
     education: string;
     phoneno: number;
+    images: any[];
     
   }
   
