@@ -4,6 +4,7 @@ import * as mongoose from 'mongoose';
 export const UserSchema = new mongoose.Schema({
     _id: { type: String, default: '' },
     name: { type: String, default: '' },
+    gender: { type: String, default: '' },
     bio: { type: String, default: '' },
     email: { type: String, default: '' },
     address: { type: String, default: '' },

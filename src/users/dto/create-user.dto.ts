@@ -11,6 +11,9 @@ export class CreateUserDto {
     name: string;
 
     @ApiProperty()
+    gender: string;
+
+    @ApiProperty()
     bio: string;
 
     @ApiProperty()

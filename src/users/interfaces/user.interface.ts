@@ -11,6 +11,7 @@ export interface User extends Document {
     education: string;
     phoneno: number;
     images: any[];
+    gender: string;
     
   }
   

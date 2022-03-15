@@ -22,6 +22,18 @@ export class UserService {
     //     }
     // }
 
+    async getUserById(id: string): Promise<User> {
+        return await this._userModel.findById({_id: id}).then((result) => {
+            if(result) {
+                return result
+            } else {
+                throw new HttpException('User with this ID does not Exist', HttpStatus.NOT_FOUND)
+            }
+        }).catch(() => {
+            throw new HttpException('User with this ID does not Exist', HttpStatus.NOT_FOUND)
+        })
+    }
+
     async getAllUsers(limit, offset) {
         // limit = parseInt(limit) < 1 ? 10 : limit;
         // offset = parseInt(offset) < 0 ? 0 : offset;

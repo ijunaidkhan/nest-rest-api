@@ -10,6 +10,7 @@ import { Put } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Delete } from '@nestjs/common';
 // import { UpdateUserDto } from './dto/update-user.dto';
+import { User } from './interfaces/user.interface';
 
 @ApiTags('User')
 @Controller('users')
@@ -23,6 +24,12 @@ export class UsersController {
     @Query('limit') limit: number = 10, 
     @Query('offset') offset: number = 0){
         return this.userService.getAllUsers(limit, offset);
+    }
+
+    @Get('getUserById/:id')
+    @ApiOperation({ summary: 'Get user by Id'})
+    getOneMenuItem(@Param('id') id: string): Promise<User> {
+        return this.userService.getUserById(id);
     }
 
     @Post('createUser')
